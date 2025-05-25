@@ -1,0 +1,116 @@
+Overview
+This project aims to predict the Air Quality Index (AQI) for the next 24 hours using historical air pollution, weather, and traffic data. The model leverages supervised machine learning techniques to make accurate forecasts and support smart urban planning and public health decisions.
+
+It is based on Case Study 4 from the AI & Green Skills curriculum, focusing on how AI can combat urban air pollution and improve sustainability.
+
+Objectives
+To understand the key factors affecting air quality.
+
+To develop a machine learning model that can predict AQI with high accuracy.
+
+To analyze the impact of pollution and weather patterns on urban environments.
+
+To demonstrate how AI can support early-warning systems for public safety.
+
+Technologies Used
+Python 3.10+
+
+pandas, numpy – Data manipulation
+
+matplotlib, seaborn – Visualization
+
+scikit-learn – Preprocessing and modeling
+
+xgboost – Advanced regression modeling
+
+Replit – Online coding environment (no installation needed)
+
+Dataset
+You can use:
+
+Delhi Air Quality Dataset (Kaggle)
+
+Contains data from 2015 to 2020, including:
+
+PM2.5, PM10, NO2, CO (Pollutants)
+
+Temperature, Humidity, Wind Speed (Weather)
+
+Timestamp for time-series modeling
+
+Workflow
+Load and Clean the Dataset
+
+Handle missing/null values
+
+Convert date column to datetime format
+
+Extract features like hour, day, and month
+
+Feature Engineering
+
+Select relevant features for prediction (e.g., PM2.5, NO2, Temp)
+
+Normalize or scale features if needed
+
+Model Training
+
+Split data into training and test sets
+
+Train an XGBoost Regressor model
+
+Evaluate using RMSE or MAE
+
+Prediction
+
+Predict AQI for unseen data
+
+Plot actual vs predicted AQI for comparison
+
+Visualization
+
+Show correlation heatmap
+
+Line chart for time-series AQI changes
+
+Actual vs Predicted AQI comparison
+
+Future Enhancements
+Deploy as a Streamlit web app for real-time prediction.
+
+Integrate live API feeds for traffic and weather.
+
+Add location-based AQI maps using Folium or Plotly.
+
+How to Run on Replit
+Create a new Python Replit: https://replit.com
+
+Upload your dataset (air_quality.csv or similar)
+
+Add the following in main.py:
+
+Data loading
+
+Preprocessing
+
+Model training
+
+Visualization
+
+Run the file — Replit will display plots directly in the output tab.
+
+Expected Output
+RMSE/MAE of AQI prediction
+
+Charts showing model performance
+
+Insight into most influential features on air pollution
+
+Real-Life Impact
+This model mimics the real-world AI system used in Delhi to forecast AQI and issue public warnings. By enabling early responses to high pollution days, AI can help:
+
+Reduce outdoor exposure
+
+Improve city traffic management
+
+Support sustainable urban planning
