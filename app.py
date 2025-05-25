@@ -25,17 +25,56 @@ st.set_page_config(
     layout="wide"
 )
 
-# App title and description
+# App title
 st.title("Air Quality Index (AQI) Prediction System")
-st.markdown("""
-This application shows current air quality and predicts the Air Quality Index (AQI) for the next 24 hours 
-using real-time pollution data. The model leverages supervised machine learning techniques to make accurate 
-forecasts and support smart urban planning and public health decisions.
-""")
 
-# Sidebar for navigation
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Current Air Quality", "Historical Data", "AQI Prediction", "About"])
+# Top navigation
+st.markdown(
+    """
+    <style>
+    div.stButton > button {
+        background-color: #2E86C1;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 24px;
+        margin: 0px 10px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+    }
+    div.stButton > button:hover {
+        background-color: #1A5276;
+    }
+    div.stButton > button:focus {
+        background-color: #1A5276;
+    }
+    </style>
+    """, 
+    unsafe_allow_html=True
+)
+
+# Initialize session state if the page key doesn't exist
+if 'page' not in st.session_state:
+    st.session_state.page = "Current Air Quality"
+
+# Create top navigation with buttons
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    if st.button("Current Air Quality"):
+        st.session_state.page = "Current Air Quality"
+with col2:
+    if st.button("Historical Data"):
+        st.session_state.page = "Historical Data"
+with col3:
+    if st.button("AQI Prediction"):
+        st.session_state.page = "AQI Prediction"
+with col4:
+    if st.button("About"):
+        st.session_state.page = "About"
+
+# Get the current page from session state
+page = st.session_state.page
 
 # Initialize session state
 if 'data' not in st.session_state:
@@ -49,9 +88,21 @@ if 'future_data' not in st.session_state:
 if 'last_update_time' not in st.session_state:
     st.session_state.last_update_time = None
 
-# City selection in sidebar
-cities = get_cities_list()
-selected_city = st.sidebar.selectbox("Select City", cities, index=cities.index(st.session_state.selected_city))
+# City selection and app description in two columns
+col1, col2 = st.columns([1, 3])
+
+with col1:
+    # City selection at the top
+    cities = get_cities_list()
+    selected_city = st.selectbox("Select City", cities, index=cities.index(st.session_state.selected_city))
+    
+with col2:
+    # App description
+    st.markdown("""
+    This application shows current air quality and predicts the Air Quality Index (AQI) for the next 24 hours 
+    using real-time pollution data. The model leverages supervised machine learning techniques to make accurate 
+    forecasts and support smart urban planning and public health decisions.
+    """)
 
 # Update session state if city changed
 if selected_city != st.session_state.selected_city:
