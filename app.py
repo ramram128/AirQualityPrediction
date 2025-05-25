@@ -265,24 +265,37 @@ elif page == "Historical Data":
             )
             st.plotly_chart(fig, use_container_width=True)
             
-            # Display descriptive statistics
-            st.subheader("Descriptive Statistics")
-            st.dataframe(filtered_data[available_pollutants].describe())
+            # Add a section for air quality insights
+            st.subheader("Air Quality Insights")
             
-            # Correlation heatmap
-            st.subheader("Correlation Between Pollutants")
-            corr_cols = available_pollutants.copy()
-            weather_cols = ['Temperature', 'Humidity', 'Wind_speed']
-            for col in weather_cols:
-                if col in filtered_data.columns:
-                    corr_cols.append(col)
-            
-            if len(corr_cols) > 1:
-                corr = filtered_data[corr_cols].corr()
-                fig, ax = plt.subplots(figsize=(10, 8))
-                sns.heatmap(corr, annot=True, cmap='coolwarm', fmt=".2f", ax=ax)
-                plt.title('Correlation Between Pollutants and Weather Factors')
-                st.pyplot(fig)
+            # Calculate average AQI for the selected period
+            if 'PM2.5' in filtered_data.columns:
+                avg_pm25 = filtered_data['PM2.5'].mean()
+                avg_aqi = calculate_aqi(avg_pm25, 'PM2.5')
+                category, color, message = display_aqi_description(avg_aqi)
+                
+                st.markdown(f"""
+                <div style='background-color: {color}; padding: 15px; border-radius: 10px; margin-bottom: 20px;'>
+                    <h3 style='color: white; text-align: center;'>Average AQI: {avg_aqi:.0f}</h3>
+                    <h4 style='color: white; text-align: center;'>{category}</h4>
+                    <p style='color: white; text-align: center;'>{message}</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # Calculate peak pollution hours
+                hourly_pollution = filtered_data.groupby('hour')['PM2.5'].mean()
+                peak_hour = hourly_pollution.idxmax()
+                lowest_hour = hourly_pollution.idxmin()
+                
+                st.markdown(f"""
+                ### Peak Pollution Times
+                - **Highest pollution typically occurs at:** {peak_hour}:00 hours
+                - **Lowest pollution typically occurs at:** {lowest_hour}:00 hours
+                
+                ### Air Quality Recommendations
+                - Consider planning outdoor activities around {lowest_hour}:00 when air quality is better
+                - If possible, limit outdoor exposure at {peak_hour}:00 when pollution peaks
+                """)
             
         else:
             st.warning("No data available for the selected date range.")
