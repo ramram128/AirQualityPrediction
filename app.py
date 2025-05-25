@@ -112,28 +112,18 @@ if 'future_data' not in st.session_state:
 if 'last_update_time' not in st.session_state:
     st.session_state.last_update_time = None
 
-# City selection and app description in two columns
-col1, col2 = st.columns([1, 3])
+# App description
+st.markdown("""
+This application shows current air quality and predicts the Air Quality Index (AQI) for the next 24 hours 
+using real-time pollution data. The model leverages supervised machine learning techniques to make accurate 
+forecasts and support smart urban planning and public health decisions.
+""")
 
-with col1:
-    # City selection at the top
-    cities = get_cities_list()
-    selected_city = st.selectbox("Select City", cities, index=cities.index(st.session_state.selected_city))
-    
-with col2:
-    # App description
-    st.markdown("""
-    This application shows current air quality and predicts the Air Quality Index (AQI) for the next 24 hours 
-    using real-time pollution data. The model leverages supervised machine learning techniques to make accurate 
-    forecasts and support smart urban planning and public health decisions.
-    """)
+# Get cities list for later use
+cities = get_cities_list()
 
-# Update session state if city changed
-if selected_city != st.session_state.selected_city:
-    st.session_state.selected_city = selected_city
-    st.session_state.data = None  # Reset data when city changes
-    st.session_state.model = None
-    st.session_state.future_data = None
+# Get the current selected city from session state
+selected_city = st.session_state.selected_city
     
 # Fetch data if not already in session state or if it's time to refresh
 if st.session_state.data is None or st.session_state.last_update_time is None or \
@@ -164,7 +154,22 @@ if st.session_state.data is None or st.session_state.last_update_time is None or
 
 # Current Air Quality page
 if page == "Current Air Quality":
-    st.header(f"Current Air Quality in {selected_city}")
+    # Create a row with city selection and header
+    col1, col2 = st.columns([1, 3])
+    
+    with col1:
+        # City selection in the Current Air Quality page
+        new_city = st.selectbox("Select City", cities, index=cities.index(selected_city))
+        # Update session state if city changed
+        if new_city != selected_city:
+            st.session_state.selected_city = new_city
+            st.session_state.data = None  # Reset data when city changes
+            st.session_state.model = None
+            st.session_state.future_data = None
+            st.rerun()  # Rerun the app to refresh with the new city data
+    
+    with col2:
+        st.header(f"Current Air Quality in {selected_city}")
     
     if st.session_state.data is not None:
         data = st.session_state.data
