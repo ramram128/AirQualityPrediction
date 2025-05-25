@@ -26,7 +26,7 @@ st.set_page_config(
 )
 
 # App title
-st.title("Air Quality Index (AQI) Prediction System")
+st.title("Air Quality  Prediction System")
 
 # Top navigation
 st.markdown(
@@ -89,7 +89,7 @@ if 'last_update_time' not in st.session_state:
     st.session_state.last_update_time = None
 
 # City selection and app description in two columns
-col1, col2 = st.columns([1, 3])
+col1, col2 = st.columns([1, 4])
 
 with col1:
     # City selection at the top
