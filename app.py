@@ -70,6 +70,9 @@ st.markdown(
 if 'page' not in st.session_state:
     st.session_state.page = "Current Air Quality"
 
+# Create inner container for buttons to ensure they stay within the border
+st.markdown('<div style="padding: 0px 20px;">', unsafe_allow_html=True)
+
 # Create top navigation with buttons
 col1, col2, col3, col4 = st.columns(4)
 with col1:
@@ -84,6 +87,9 @@ with col3:
 with col4:
     if st.button("About"):
         st.session_state.page = "About"
+
+# Close the inner container
+st.markdown('</div>', unsafe_allow_html=True)
 
 # Close the navigation container
 st.markdown("</div>", unsafe_allow_html=True)
