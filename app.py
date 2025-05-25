@@ -28,7 +28,7 @@ st.set_page_config(
 # App title
 st.title("Air Quality Index (AQI) Prediction System")
 
-# Top navigation
+# Top navigation with custom styling
 st.markdown(
     """
     <style>
@@ -49,7 +49,19 @@ st.markdown(
     div.stButton > button:focus {
         background-color: #1A5276;
     }
+    .nav-container {
+        border: 2px solid #2E86C1;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 25px;
+        background-color: #EBF5FB;
+    }
+    .content-container {
+        margin-top: 30px;
+    }
     </style>
+    
+    <div class="nav-container">
     """, 
     unsafe_allow_html=True
 )
@@ -72,6 +84,12 @@ with col3:
 with col4:
     if st.button("About"):
         st.session_state.page = "About"
+
+# Close the navigation container
+st.markdown("</div>", unsafe_allow_html=True)
+
+# Start the content container
+st.markdown('<div class="content-container">', unsafe_allow_html=True)
 
 # Get the current page from session state
 page = st.session_state.page
